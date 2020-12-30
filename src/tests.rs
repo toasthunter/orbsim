@@ -22,3 +22,9 @@ fn test_distance() {
     assert_eq!(sun.distance(&earth), 13.0);
 
 }
+
+fn test_grav_accel() {
+
+    todo!()
+
+}
