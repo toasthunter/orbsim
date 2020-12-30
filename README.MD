@@ -1,5 +1,7 @@
+[![Build Status](https://www.travis-ci.org/toasthunter/orbsim.svg?branch=master)](https://www.travis-ci.org/toasthunter/orbsim)
+
 # 2D Physics simulation involving Sun-Earth orbitals
-## Powered by the Piston engine
+## Powered by [Piston](https://github.com/PistonDevelopers/piston)
 
 This program visually simulates how the Earth orbits around the Sun, with realistic gravitational forces calculated from realistic masses.
 
