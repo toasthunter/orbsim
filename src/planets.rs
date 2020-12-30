@@ -3,11 +3,11 @@
 
 pub struct PlanetarySystem {
 
-    sun: Planet,
-    earth: Planet,
-    grav_coefficent: f64,
-    time: f64,
-    timescale: f64,
+    pub sun: Planet,
+    pub earth: Planet,
+    pub grav_coefficent: f64,
+    pub time: f64,
+    pub timescale: f64,
 
 }
 
@@ -19,7 +19,7 @@ impl PlanetarySystem {
     
     // Calculates the gravitational acceleration of the Earth in x and y directions with respect to the Sun
     // The Sun is fixed in place for the sake of simplicity
-    fn grav_accel(&self) -> (f64, f64) {
+    pub fn grav_accel(&self) -> (f64, f64) {
 
         (-self.grav_coefficent * self.sun.mass * (self.earth.x - self.sun.x).abs() / self.earth.distance(&self.sun).powf(3.0),
         -self.grav_coefficent * self.sun.mass * (self.earth.y - self.sun.y).abs() / self.earth.distance(&self.sun).powf(3.0))
@@ -27,7 +27,7 @@ impl PlanetarySystem {
     }
 
     // Steps the time forward in the system, and moves the planets accordingly.
-    fn step_time(&mut self) {
+    pub fn step_time(&mut self) {
 
         let (gx, gy) = self.grav_accel();
 
