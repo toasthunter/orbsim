@@ -32,7 +32,7 @@ impl PlanetarySystem {
         let (gx, gy) = self.grav_accel();
 
         let vx = self.earth.vx + gx * self.timescale;
-        let x = self.earth.x * self.earth.vx * self.timescale;
+        let x = self.earth.x + self.earth.vx * self.timescale;
 
         let vy = self.earth.vy + gy * self.timescale;
         let y = self.earth.y + self.earth.vy * self.timescale;
