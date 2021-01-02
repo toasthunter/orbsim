@@ -1,6 +1,13 @@
 // Contains the necessary definitions of the planet and planetary system data structures
 // and their respective methods.
 
+extern crate piston_window;
+
+pub use piston_window::*;
+
+pub const WIDTH: u32 = 512;
+pub const HEIGHT: u32 = 512;
+
 pub struct PlanetarySystem {
 
     pub sun: Planet,
@@ -37,12 +44,35 @@ impl PlanetarySystem {
         let vy = self.earth.vy + gy * self.timescale;
         let y = self.earth.y + self.earth.vy * self.timescale;
 
+        if ((self.sun.x - x).powf(2.0) + (self.sun.y - y).powf(2.0)).sqrt() <= self.sun.radius + self.earth.radius {
+            panic!("The Sun and Earth collided!");
+        }
+
         self.earth.x = x;
         self.earth.y = y;
         self.earth.vx = vx;
         self.earth.vy = vy;
 
         self.time += self.timescale;
+
+    }
+
+    // Render planets onto the screen
+    pub fn render(&self, gfx: &mut G2d, ctx: Context) {
+
+        clear([1.0, 1.0, 1.0, 1.0], gfx);
+
+        ellipse([1.0, 0.64, 0.0, 1.0],
+            [self.sun.x - self.sun.radius / 2.0, (HEIGHT as f64 - self.sun.y) - self.sun.radius / 2.0, self.sun.radius, self.sun.radius],
+            ctx.transform,
+            gfx);
+
+        ellipse([0.0, 0.0, 1.0, 1.0],
+            [self.earth.x - self.earth.radius / 2.0, (HEIGHT as f64 - self.earth.y) - self.earth.radius / 2.0, self.earth.radius, self.earth.radius],
+            ctx.transform,
+            gfx);
+
+        
 
     }
 
@@ -66,7 +96,7 @@ impl Planet {
     }
 
     pub fn distance(&self, other: &Self) -> f64 {
-        ((self.x - other.x).abs().powf(2.0) + (self.y - other.y).abs().powf(2.0)).sqrt()
+        ((self.x - other.x).powf(2.0) + (self.y - other.y).powf(2.0)).sqrt()
     }
 
 }

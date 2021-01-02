@@ -23,8 +23,16 @@ fn test_distance() {
 
 }
 
+#[test]
 fn test_grav_accel() {
 
-    todo!()
+    let system = PlanetarySystem::new(
+        Planet::new(1000.0, 0.0, 0.0, 0.0, 0.0, 0.0),
+        Planet::new(50.0, 0.0, 7.0, 0.0, 24.0, 0.0),
+        0.1,
+        0.0
+    );
+
+    assert_eq!(system.grav_accel(), (-0.0448, -0.1536));
 
 }

@@ -1,5 +1,7 @@
 mod planets;
 
+use planets::*;
+
 #[cfg(test)]
 mod tests;
 
