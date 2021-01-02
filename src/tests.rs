@@ -12,11 +12,11 @@ fn test_distance() {
     assert_eq!(sun.distance(&earth), 5.0);
     assert_eq!(earth.distance(&sun), 5.0);
 
-    earth.x = 6.0;
-    earth.y = 14.0;
+    earth.pos.x = 6.0;
+    earth.pos.y = 14.0;
 
-    sun.x = 1.0;
-    sun.y = 2.0;
+    sun.pos.x = 1.0;
+    sun.pos.y = 2.0;
 
     assert_eq!(earth.distance(&sun), 13.0);
     assert_eq!(sun.distance(&earth), 13.0);

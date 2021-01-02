@@ -28,8 +28,8 @@ impl PlanetarySystem {
     // The Sun is fixed in place for the sake of simplicity
     pub fn grav_accel(&self) -> (f64, f64) {
 
-        (self.grav_coefficent * self.sun.mass * (self.sun.x - self.earth.x) / self.earth.distance(&self.sun).powf(3.0),
-        self.grav_coefficent * self.sun.mass * (self.sun.y - self.earth.y) / self.earth.distance(&self.sun).powf(3.0))
+        (self.grav_coefficent * self.sun.mass * (self.sun.pos.x - self.earth.pos.x) / self.earth.distance(&self.sun).powf(3.0),
+        self.grav_coefficent * self.sun.mass * (self.sun.pos.y - self.earth.pos.y) / self.earth.distance(&self.sun).powf(3.0))
 
     }
 
@@ -38,16 +38,16 @@ impl PlanetarySystem {
 
         let (gx, gy) = self.grav_accel();
 
-        let vx = self.earth.vx + gx * self.timescale;
-        let x = self.earth.x + self.earth.vx * self.timescale;
+        let vx = self.earth.vel.x + gx * self.timescale;
+        let x = self.earth.pos.x + self.earth.vel.x * self.timescale;
 
-        let vy = self.earth.vy + gy * self.timescale;
-        let y = self.earth.y + self.earth.vy * self.timescale;
+        let vy = self.earth.vel.y + gy * self.timescale;
+        let y = self.earth.pos.y + self.earth.vel.y * self.timescale;
 
-        self.earth.x = x;
-        self.earth.y = y;
-        self.earth.vx = vx;
-        self.earth.vy = vy;
+        self.earth.pos.x = x;
+        self.earth.pos.y = y;
+        self.earth.vel.x = vx;
+        self.earth.vel.y = vy;
 
         self.time += self.timescale;
 
@@ -59,21 +59,38 @@ impl PlanetarySystem {
         clear([1.0, 1.0, 1.0, 1.0], gfx);
 
         ellipse([1.0, 0.64, 0.0, 1.0],
-            [self.sun.x - self.sun.radius / 2.0, (HEIGHT as f64 - self.sun.y) - self.sun.radius / 2.0, self.sun.radius, self.sun.radius],
+            [self.sun.pos.x - self.sun.radius / 2.0, (HEIGHT as f64 - self.sun.pos.y) - self.sun.radius / 2.0, self.sun.radius, self.sun.radius],
             ctx.transform,
             gfx);
 
         ellipse([0.0, 0.0, 1.0, 1.0],
-            [self.earth.x - self.earth.radius / 2.0, (HEIGHT as f64 - self.earth.y) - self.earth.radius / 2.0, self.earth.radius, self.earth.radius],
+            [self.earth.pos.x - self.earth.radius / 2.0, (HEIGHT as f64 - self.earth.pos.y) - self.earth.radius / 2.0, self.earth.radius, self.earth.radius],
             ctx.transform,
             gfx);
 
         line([1.0, 0.0, 0.0, 0.5],
             1.0,
-            [self.sun.x, HEIGHT as f64 - self.sun.y, self.earth.x, HEIGHT as f64 - self.earth.y],
+            [self.sun.pos.x, HEIGHT as f64 - self.sun.pos.y, self.earth.pos.x, HEIGHT as f64 - self.earth.pos.y],
             ctx.transform,
             gfx);
 
+    }
+
+}
+
+pub struct Vector {
+    pub x: f64,
+    pub y: f64,
+}
+
+impl Vector {
+
+    fn new(x: f64, y: f64) -> Self {
+        Self {x, y}
+    }
+
+    fn diff(&self, other: &Self) -> f64 {
+        ((self.x - other.x).powf(2.0) + (self.y - other.y).powf(2.0)).sqrt() 
     }
 
 }
@@ -82,21 +99,19 @@ pub struct Planet {
 
     pub mass: f64,
     pub radius: f64,
-    pub x: f64,
-    pub vx: f64,
-    pub y: f64,
-    pub vy: f64,
+    pub pos: Vector,
+    pub vel: Vector,
 
 }
 
 impl Planet {
 
     pub fn new(mass: f64, radius: f64, x: f64, vx: f64, y: f64, vy: f64) -> Self {
-        Self {mass, radius, x, vx, y, vy}
+        Self {mass, radius, pos: Vector::new(x, y), vel: Vector::new(vx, vy)}
     }
 
     pub fn distance(&self, other: &Self) -> f64 {
-        ((self.x - other.x).powf(2.0) + (self.y - other.y).powf(2.0)).sqrt()
+        self.pos.diff(&other.pos)
     }
 
 }
