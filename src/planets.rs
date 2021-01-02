@@ -72,8 +72,6 @@ impl PlanetarySystem {
             ctx.transform,
             gfx);
 
-        
-
     }
 
 }
