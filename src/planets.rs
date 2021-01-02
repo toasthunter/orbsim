@@ -58,7 +58,7 @@ impl PlanetarySystem {
     }
 
     // Render planets onto the screen
-    pub fn render(&self, gfx: &mut G2d, ctx: Context) {
+    pub fn render(&self, ctx: Context, gfx: &mut G2d) {
 
         clear([1.0, 1.0, 1.0, 1.0], gfx);
 
