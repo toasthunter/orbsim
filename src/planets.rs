@@ -28,8 +28,8 @@ impl PlanetarySystem {
     // The Sun is fixed in place for the sake of simplicity
     pub fn grav_accel(&self) -> (f64, f64) {
 
-        (-self.grav_coefficent * self.sun.mass * (self.earth.x - self.sun.x).abs() / self.earth.distance(&self.sun).powf(3.0),
-        -self.grav_coefficent * self.sun.mass * (self.earth.y - self.sun.y).abs() / self.earth.distance(&self.sun).powf(3.0))
+        (self.grav_coefficent * self.sun.mass * (self.sun.x - self.earth.x) / self.earth.distance(&self.sun).powf(3.0),
+        self.grav_coefficent * self.sun.mass * (self.sun.y - self.earth.y) / self.earth.distance(&self.sun).powf(3.0))
 
     }
 
@@ -43,10 +43,6 @@ impl PlanetarySystem {
 
         let vy = self.earth.vy + gy * self.timescale;
         let y = self.earth.y + self.earth.vy * self.timescale;
-
-        if ((self.sun.x - x).powf(2.0) + (self.sun.y - y).powf(2.0)).sqrt() <= self.sun.radius + self.earth.radius {
-            panic!("The Sun and Earth collided!");
-        }
 
         self.earth.x = x;
         self.earth.y = y;
@@ -69,6 +65,12 @@ impl PlanetarySystem {
 
         ellipse([0.0, 0.0, 1.0, 1.0],
             [self.earth.x - self.earth.radius / 2.0, (HEIGHT as f64 - self.earth.y) - self.earth.radius / 2.0, self.earth.radius, self.earth.radius],
+            ctx.transform,
+            gfx);
+
+        line([1.0, 0.0, 0.0, 0.5],
+            1.0,
+            [self.sun.x, HEIGHT as f64 - self.sun.y, self.earth.x, HEIGHT as f64 - self.earth.y],
             ctx.transform,
             gfx);
 
