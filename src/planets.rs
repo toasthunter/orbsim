@@ -5,8 +5,8 @@ extern crate piston_window;
 
 pub use piston_window::*;
 
-pub const WIDTH: u32 = 512;
-pub const HEIGHT: u32 = 512;
+pub const WIDTH: f64 = 512.0;
+pub const HEIGHT: f64 = 512.0;
 
 pub struct PlanetarySystem {
 
@@ -28,8 +28,10 @@ impl PlanetarySystem {
     // The Sun is fixed in place for the sake of simplicity
     pub fn grav_accel(&self) -> (f64, f64) {
 
-        (self.grav_coefficent * self.sun.mass * (self.sun.pos.x - self.earth.pos.x) / self.earth.distance(&self.sun).powf(3.0),
-        self.grav_coefficent * self.sun.mass * (self.sun.pos.y - self.earth.pos.y) / self.earth.distance(&self.sun).powf(3.0))
+        (
+        self.grav_coefficent * self.sun.mass * (self.sun.pos.x - self.earth.pos.x) / self.earth.distance(&self.sun).powf(3.0),
+        self.grav_coefficent * self.sun.mass * (self.sun.pos.y - self.earth.pos.y) / self.earth.distance(&self.sun).powf(3.0)
+        )
 
     }
 
@@ -38,16 +40,11 @@ impl PlanetarySystem {
 
         let (gx, gy) = self.grav_accel();
 
-        let vx = self.earth.vel.x + gx * self.timescale;
-        let x = self.earth.pos.x + self.earth.vel.x * self.timescale;
+        self.earth.vel.x += gx * self.timescale;
+        self.earth.vel.y += gy * self.timescale;
 
-        let vy = self.earth.vel.y + gy * self.timescale;
-        let y = self.earth.pos.y + self.earth.vel.y * self.timescale;
-
-        self.earth.pos.x = x;
-        self.earth.pos.y = y;
-        self.earth.vel.x = vx;
-        self.earth.vel.y = vy;
+        self.earth.pos.x += self.earth.vel.x * self.timescale;
+        self.earth.pos.y += self.earth.vel.y * self.timescale;
 
         self.time += self.timescale;
 
@@ -59,18 +56,18 @@ impl PlanetarySystem {
         clear([1.0, 1.0, 1.0, 1.0], gfx);
 
         ellipse([1.0, 0.64, 0.0, 1.0],
-            [self.sun.pos.x - self.sun.radius / 2.0, (HEIGHT as f64 - self.sun.pos.y) - self.sun.radius / 2.0, self.sun.radius, self.sun.radius],
+            [self.sun.pos.x - self.sun.radius / 2.0, HEIGHT - self.sun.pos.y - self.sun.radius / 2.0, self.sun.radius, self.sun.radius],
             ctx.transform,
             gfx);
 
         ellipse([0.0, 0.0, 1.0, 1.0],
-            [self.earth.pos.x - self.earth.radius / 2.0, (HEIGHT as f64 - self.earth.pos.y) - self.earth.radius / 2.0, self.earth.radius, self.earth.radius],
+            [self.earth.pos.x - self.earth.radius / 2.0, HEIGHT - self.earth.pos.y - self.earth.radius / 2.0, self.earth.radius, self.earth.radius],
             ctx.transform,
             gfx);
 
         line([1.0, 0.0, 0.0, 0.5],
             1.0,
-            [self.sun.pos.x, HEIGHT as f64 - self.sun.pos.y, self.earth.pos.x, HEIGHT as f64 - self.earth.pos.y],
+            [self.sun.pos.x, HEIGHT - self.sun.pos.y, self.earth.pos.x, HEIGHT - self.earth.pos.y],
             ctx.transform,
             gfx);
 
