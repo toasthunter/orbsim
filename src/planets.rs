@@ -5,9 +5,12 @@ extern crate piston_window;
 
 pub use piston_window::*;
 
+use super::parser::Deserialize;
+
 pub const WIDTH: f64 = 512.0;
 pub const HEIGHT: f64 = 512.0;
 
+#[derive(Deserialize)]
 pub struct PlanetarySystem {
 
     pub sun: Planet,
@@ -75,6 +78,7 @@ impl PlanetarySystem {
 
 }
 
+#[derive(Deserialize)]
 pub struct Vector {
     pub x: f64,
     pub y: f64,
@@ -92,6 +96,7 @@ impl Vector {
 
 }
 
+#[derive(Deserialize)]
 pub struct Planet {
 
     pub mass: f64,
