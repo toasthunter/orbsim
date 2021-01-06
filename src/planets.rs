@@ -7,8 +7,8 @@ pub use piston_window::*;
 
 use super::parser::Deserialize;
 
-pub const WIDTH: f64 = 512.0;
-pub const HEIGHT: f64 = 512.0;
+pub const WIDTH: f64 = 1024.0;
+pub const HEIGHT: f64 = 768.0;
 
 #[derive(Deserialize)]
 pub struct PlanetarySystem {
