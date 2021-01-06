@@ -49,6 +49,8 @@ impl PlanetarySystem {
         self.earth.pos.x += self.earth.vel.x * self.timescale;
         self.earth.pos.y += self.earth.vel.y * self.timescale;
 
+        self.sun.pos.x += self.sun.vel.x * self.timescale;
+        self.sun.pos.y += self.sun.vel.y * self.timescale;
         
         if ((self.sun.pos.x - self.earth.pos.x).powf(2.0) + (self.sun.pos.y - self.earth.pos.y).powf(2.0)).sqrt() <= self.sun.radius + self.earth.radius {
             panic!("Collision")
