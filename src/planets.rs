@@ -49,6 +49,12 @@ impl PlanetarySystem {
         self.earth.pos.x += self.earth.vel.x * self.timescale;
         self.earth.pos.y += self.earth.vel.y * self.timescale;
 
+        
+        if ((self.sun.pos.x - self.earth.pos.x).powf(2.0) + (self.sun.pos.y - self.earth.pos.y).powf(2.0)).sqrt() <= self.sun.radius + self.earth.radius {
+            panic!("Collision")
+        }
+        
+
         self.time += self.timescale;
 
     }
@@ -59,12 +65,12 @@ impl PlanetarySystem {
         clear([1.0, 1.0, 1.0, 1.0], gfx);
 
         ellipse([1.0, 0.64, 0.0, 1.0],
-            [self.sun.pos.x - self.sun.radius / 2.0, HEIGHT - self.sun.pos.y - self.sun.radius / 2.0, self.sun.radius, self.sun.radius],
+            [self.sun.pos.x - self.sun.radius, HEIGHT - self.sun.pos.y - self.sun.radius, self.sun.radius * 2.0, self.sun.radius * 2.0],
             ctx.transform,
             gfx);
 
         ellipse([0.0, 0.0, 1.0, 1.0],
-            [self.earth.pos.x - self.earth.radius / 2.0, HEIGHT - self.earth.pos.y - self.earth.radius / 2.0, self.earth.radius, self.earth.radius],
+            [self.earth.pos.x - self.earth.radius, HEIGHT - self.earth.pos.y - self.earth.radius, self.earth.radius * 2.0, self.earth.radius * 2.0],
             ctx.transform,
             gfx);
 
