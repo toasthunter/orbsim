@@ -7,8 +7,8 @@ pub use piston_window::*;
 
 use super::parser::Deserialize;
 
-pub const WIDTH: f64 = 1024.0;
-pub const HEIGHT: f64 = 768.0;
+pub const WIDTH: f64 = 1024.;
+pub const HEIGHT: f64 = 768.;
 
 #[derive(Deserialize)]
 pub struct PlanetarySystem {
@@ -24,7 +24,7 @@ pub struct PlanetarySystem {
 impl PlanetarySystem {
 
     pub fn new(sun: Planet, earth: Planet, grav_coefficent: f64, timescale: f64) -> Self {
-        Self {sun, earth, grav_coefficent, time: 0.0, timescale}
+        Self {sun, earth, grav_coefficent, time: 0., timescale}
     }
     
     // Calculates the gravitational acceleration of the Earth in x and y directions with respect to the Sun
@@ -32,8 +32,8 @@ impl PlanetarySystem {
     pub fn grav_accel(&self) -> (f64, f64) {
 
         (
-        self.grav_coefficent * self.sun.mass * (self.sun.pos.x - self.earth.pos.x) / self.earth.distance(&self.sun).powf(3.0),
-        self.grav_coefficent * self.sun.mass * (self.sun.pos.y - self.earth.pos.y) / self.earth.distance(&self.sun).powf(3.0)
+        self.grav_coefficent * self.sun.mass * (self.sun.pos.x - self.earth.pos.x) / self.earth.distance(&self.sun).powf(3.),
+        self.grav_coefficent * self.sun.mass * (self.sun.pos.y - self.earth.pos.y) / self.earth.distance(&self.sun).powf(3.)
         )
 
     }
@@ -52,7 +52,7 @@ impl PlanetarySystem {
         self.sun.pos.x += self.sun.vel.x * self.timescale;
         self.sun.pos.y += self.sun.vel.y * self.timescale;
         
-        if ((self.sun.pos.x - self.earth.pos.x).powf(2.0) + (self.sun.pos.y - self.earth.pos.y).powf(2.0)).sqrt() <= self.sun.radius + self.earth.radius {
+        if ((self.sun.pos.x - self.earth.pos.x).powf(2.) + (self.sun.pos.y - self.earth.pos.y).powf(2.)).sqrt() <= self.sun.radius + self.earth.radius {
             panic!("Collision")
         }
         
@@ -64,23 +64,25 @@ impl PlanetarySystem {
     // Render planets onto the screen
     pub fn render(&self, ctx: Context, gfx: &mut G2d) {
 
-        clear([1.0, 1.0, 1.0, 1.0], gfx);
+        clear([1.; 4], gfx);
 
-        ellipse([1.0, 0.64, 0.0, 1.0],
+        ellipse([1., 0.64, 0., 1.],
             [self.sun.pos.x - self.sun.radius, HEIGHT - self.sun.pos.y - self.sun.radius, self.sun.radius * 2.0, self.sun.radius * 2.0],
             ctx.transform,
             gfx);
 
-        ellipse([0.0, 0.0, 1.0, 1.0],
+        ellipse([0., 0., 1., 1.],
             [self.earth.pos.x - self.earth.radius, HEIGHT - self.earth.pos.y - self.earth.radius, self.earth.radius * 2.0, self.earth.radius * 2.0],
             ctx.transform,
             gfx);
 
-        line([1.0, 0.0, 0.0, 0.5],
-            1.0,
+        line([0.; 4],
+            1.,
             [self.sun.pos.x, HEIGHT - self.sun.pos.y, self.earth.pos.x, HEIGHT - self.earth.pos.y],
             ctx.transform,
             gfx);
+
+        
 
     }
 
@@ -99,7 +101,7 @@ impl Vector {
     }
 
     fn diff(&self, other: &Self) -> f64 {
-        ((self.x - other.x).powf(2.0) + (self.y - other.y).powf(2.0)).sqrt() 
+        ((self.x - other.x).powf(2.) + (self.y - other.y).powf(2.)).sqrt() 
     }
 
 }
