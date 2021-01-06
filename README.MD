@@ -7,6 +7,6 @@ This program visually simulates how the Earth orbits around the Sun, with realis
 
 The resolution of the movement is dependent on the timescale(dt). If the timescale is smaller, the movement will be smoother and more accurate(because this program is based on differential equations, whose resolution is dependent on dt).
 
-In this simulation, for the sake of simplicity, the Sun is *fixed in place*, because the gravitational force of the Earth exerted on the Sun is negligibly small.
+In this simulation, for the sake of simplicity, there is no gravitational force exerted on the Sun, it can only move in a linear motion.
 
 The initial parameters are read from the `init.json` file. At runtime, this file has to be in the same directory as the executable itself, or the program won't work. If you would like to tweak the initial settings of the planets, you are able to do so in this file.
