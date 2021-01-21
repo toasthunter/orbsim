@@ -10,6 +10,11 @@ use super::parser::Deserialize;
 pub const WIDTH: f64 = 1024.;
 pub const HEIGHT: f64 = 768.;
 
+const DISPLAY_SCALE: f64 = 100000.;
+
+mod vectordspl;
+use vectordspl::draw_vector;
+
 #[derive(Deserialize)]
 pub struct PlanetarySystem {
 
@@ -76,12 +81,17 @@ impl PlanetarySystem {
             ctx.transform,
             gfx);
 
-        line([0.; 4],
+        draw_vector([0., 0., 0., 0.5],
             1.,
             [self.sun.pos.x, HEIGHT - self.sun.pos.y, self.earth.pos.x, HEIGHT - self.earth.pos.y],
-            ctx.transform,
+            ctx,
             gfx);
 
+        draw_vector([0., 1., 0., 1.,],
+            0.7,
+            [self.earth.pos.x, HEIGHT - self.earth.pos.y, self.earth.pos.x + self.earth.vel.x * DISPLAY_SCALE, HEIGHT - (self.earth.pos.y + self.earth.vel.y * DISPLAY_SCALE)],
+            ctx,
+            gfx);
         
 
     }

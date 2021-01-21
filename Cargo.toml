@@ -2,6 +2,7 @@
 name = "orbsim"
 version = "0.1.0"
 authors = ["toasthunter"]
+readme = "README.MD"
 description = "A Sun-Earth orbital simulation powered by Piston"
 edition = "2018"
 
