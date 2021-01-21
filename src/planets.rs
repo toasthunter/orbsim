@@ -92,6 +92,14 @@ impl PlanetarySystem {
             [self.earth.pos.x, HEIGHT - self.earth.pos.y, self.earth.pos.x + self.earth.vel.x * DISPLAY_SCALE, HEIGHT - (self.earth.pos.y + self.earth.vel.y * DISPLAY_SCALE)],
             ctx,
             gfx);
+
+        let (gx, gy) = self.grav_accel();
+
+        draw_vector([1., 0., 0., 1.,],
+            0.7,
+            [self.earth.pos.x, HEIGHT - self.earth.pos.y, self.earth.pos.x + gx * DISPLAY_SCALE.powf(2.12), HEIGHT - (self.earth.pos.y + gy * DISPLAY_SCALE.powf(2.12))],
+            ctx,
+            gfx); 
         
 
     }
