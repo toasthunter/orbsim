@@ -11,7 +11,7 @@ fn main() {
     let mut system = parser::parse_init("init.json")
         .expect("Error parsing initial parameters");
 
-    let mut window: PistonWindow = WindowSettings::new("orbsim v0.1.0", [WIDTH, HEIGHT])
+    let mut window: PistonWindow = WindowSettings::new("orbsim v0.2.0", [WIDTH, HEIGHT])
         .exit_on_esc(true)
         .build()
         .unwrap();

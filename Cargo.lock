@@ -737,7 +737,7 @@ checksum = "8d3b63360ec3cb337817c2dbd47ab4a0f170d285d8e5a2064600f3def1402397"
 
 [[package]]
 name = "orbsim"
-version = "0.1.0"
+version = "0.2.0"
 dependencies = [
  "piston_window",
  "serde",
